@@ -5,19 +5,26 @@ double
 distance(particle_t *p, int n) {
     
     double dist = -99.0;
-    /* fill in your code here
-     *
-     */
+    double d;
+    for (int i=0;i<n;i++){
+        d = sqrt(p[i].x*p[i].x + p[i].y*p[i].y+p[i].z*p[i].z);
+        p[i].dist = d;
+        dist+=d;
+    }
+
     return dist;
 }
 #else
+
 double 
 distance(particle_t p, int n) {
 
-    double dist = -99.0;
-    /* fill in your code here
-     *
-     */
+    double dist = 0;
+    double d;
+    for (int i=0;i<n;i++){
+        d = sqrt(p.x[i]*p.x[i] + p.y[i]*p.y[i] +p.z[i]*p.z[i] );
+        dist+=d;
+    }
     return dist;
 }
 #endif
