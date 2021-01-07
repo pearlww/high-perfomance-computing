@@ -17,7 +17,7 @@
 # valid values: matmult_c.studio, matmult_f.studio, matmult_c.gcc or
 # matmult_f.gcc
 #
-EXECUTABLE=matmult_f.gcc
+EXECUTABLE=matmult_c.gcc
 
 # define the mkn values in the MKN variable
 #
@@ -25,14 +25,17 @@ SIZES="100 200 500"
 
 # define the permutation type in PERM
 #
-PERM="mkn"
+PERM="kmn"
 
 # uncomment and set a reasonable BLKSIZE for the blk version
 #
 # BLKSIZE=1
 
-# enable(1)/disable(0) result checking
-export MATMULT_COMPARE=0
+
+export MATMULT_RESULTS=0	  #print result matrices (in Matlab format, def: 0)
+export MATMULT_COMPARE=1   # control result comparison (def: 1)
+#export MFLOPS_MIN_T = 3     # the minimum run-time (def: 3.0 s)
+export MFLOPS_MAX_IT= infinity  # max. no of iterations;
 
 # start the collect command with the above settings
 for S in $SIZES
