@@ -17,7 +17,7 @@
 # valid values: matmult_c.studio, matmult_f.studio, matmult_c.gcc or
 # matmult_f.gcc
 #
-EXECUTABLE=matmult_f.gcc
+EXECUTABLE=matmult_c.gcc
 
 # define the mkn values in the MKN variable
 #
@@ -32,7 +32,8 @@ PERM="mkn"
 # BLKSIZE=1
 
 # enable(1)/disable(0) result checking
-export MATMULT_COMPARE=0
+export MATMULT_COMPARE=1
+export MFLOPS_MAX_IT=infinity 
 
 # start the collect command with the above settings
 for S in $SIZES
