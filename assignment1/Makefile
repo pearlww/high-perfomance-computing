@@ -1,5 +1,5 @@
 TARGET	= libmatmult.so
-LIBSRCS	= matmult_nat.c matmult_lib.c matmult_kmn.c
+LIBSRCS	= matmult_nat.c matmult_lib.c matmult_blk.c
 LIBOBJS	= $(LIBSRCS:.c=.o)
 
 OPT	= -g 

@@ -1,0 +1,11 @@
+    21.094    200.000 # matmult_blk 8
+    28.711    165.861 # matmult_blk 8
+    37.500    146.453 # matmult_blk 8
+   189.844    182.204 # matmult_blk 8
+   234.375    206.462 # matmult_blk 8
+   283.594    221.501 # matmult_blk 8
+  5859.375    288.284 # matmult_blk 8
+ 15000.000    307.702 # matmult_blk 8
+ 28359.375    319.853 # matmult_blk 8
+ 33750.000    325.656 # matmult_blk 8
+ 93750.000    325.341 # matmult_blk 8
