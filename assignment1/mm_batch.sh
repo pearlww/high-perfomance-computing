@@ -23,7 +23,8 @@ EXECUTABLE=matmult_c.gcc
 
 # define the mkn values in the MKN variable
 #
-SIZES="30 35 40  90 100 110  500 800  1100 1200 2000"
+SIZES="30 35 40"
+#SIZES="30 35 40  90 100 110  500 800  1100 1200 2000"
 
 # define the permutation type in PERM
 #
@@ -35,14 +36,15 @@ BLKSIZE=8
 
 
 export MATMULT_RESULTS=0	  #print result matrices (in Matlab format, def: 0)
-export MATMULT_COMPARE=0     # control result comparison (def: 1)
-#export MFLOPS_MIN_T = 3     # the minimum run-time (def: 3.0 s)
+export MATMULT_COMPARE=1     # control result comparison (def: 1)
+export MFLOPS_MIN_T=3      # the minimum run-time (def: 3.0 s)
 export MFLOPS_MAX_IT= infinity    # max. no of iterations;
 
 LOGEXT=$PERM.dat
 /bin/rm -f $LOGEXT
+
 # start the collect command with the above settings
 for S in $SIZES
 do
-    ./$EXECUTABLE $PERM $S $S $S $BLKSIZE >> $LOGEXT
+    ./$EXECUTABLE $PERM $S $S $S $BLKSIZE  # >> $LOGEXT
 done
