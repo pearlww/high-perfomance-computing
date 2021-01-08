@@ -23,7 +23,7 @@ EXECUTABLE=matmult_c.gcc
 
 # define the mkn values in the MKN variable
 #
-MKN="100 100 100"
+MKN="50 50 50"
 
 # define the permutation type in PERM
 #
@@ -38,8 +38,8 @@ PERM="per"
 # on the command line, i.e. "MFLOPS_MAX_IT=10 ./matmult_...." for the
 # problem size you want to analyze.
 #
-export MFLOPS_MAX_IT=1000
-export MATMULT_COMPARE=0
+export MFLOPS_MAX_IT=infinite
+export MATMULT_COMPARE=1
 
 # experiment name 
 #
