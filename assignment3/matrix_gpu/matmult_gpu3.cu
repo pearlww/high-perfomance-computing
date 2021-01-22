@@ -4,7 +4,7 @@ __global__ void kernel3(int m, int n, int k, double *d_A, double *d_B, double *d
     int i = (blockIdx.y * blockDim.y + threadIdx.y) * STRIDE; 
     int j = blockIdx.x * blockDim.x + threadIdx.x; 
     
-    int sum1;
+    int sum1=0;
     for(int s1 = 0; s1 < STRIDE; s1++){
         sum1 = i + s1; 
         if (sum1 < m && j < n){
