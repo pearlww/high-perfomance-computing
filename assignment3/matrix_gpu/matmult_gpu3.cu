@@ -1,18 +1,23 @@
-__global__ void kernel2(int m, int n, int k, double *d_A, double *d_B, double *d_C){
-    int j = blockIdx.x*blockDim.x+threadIdx.x; 
-    int i = blockIdx.y*blockDim.y+threadIdx.y; 
+#define STRIDE 2
 
-    if (i < m && j < n){
-        double d_c1 = 0.0;
-        for(int s = 0; s < k; s++){
-            d_c1 += d_A[i*k + s] * d_B[s*n + j];
-        }
-        d_C[i*n + j] = d_c1;
-    }
+__global__ void kernel3(int m, int n, int k, double *d_A, double *d_B, double *d_C){
+    int i = (blockIdx.y * blockDim.y + threadIdx.y) * STRIDE; 
+    int j = blockIdx.x * blockDim.x + threadIdx.x; 
+    
+    int sum1;
+    for(int s1 = 0; s1 < STRIDE; s1++){
+        sum1 = i + s1; 
+        if (sum1 < m && j < n){
+            d_C[sum1*n + j] = 0.0;
+            for(int s = 0; s < k; s++){
+                d_C[sum1*n + j] += d_A[sum1*k + s] * d_B[s*n + j];  }
+        }   
+    } 
 }
 
+
 extern "C" { 
-	void matmult_gpu2(int m, int n, int k, double *A, double *B, double *C) { 
+	void matmult_gpu3(int m, int n, int k, double *A, double *B, double *C) { 
 
     
     double *d_A, *d_B, *d_C; //variable on device
@@ -29,9 +34,9 @@ extern "C" {
     cudaMemcpy(d_B, B, size_matrix_B, cudaMemcpyHostToDevice); 
 
     dim3 dimBlock(16,16,1);
-    dim3 dimGrid((m + dimBlock.x-1)/dimBlock.x,(n + dimBlock.y-1)/dimBlock.y);
+    dim3 dimGrid((m -1)/dimBlock.x+1,(n/STRIDE-1)/dimBlock.y+1) ; 
 
-    kernel2<<<dimGrid,dimBlock>>>(m, n, k, d_A, d_B, d_C);
+    kernel3<<<dimGrid,dimBlock>>>(m, n, k, d_A, d_B, d_C);
     cudaDeviceSynchronize(); 
     
     //transfer C back to CPU
