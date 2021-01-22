@@ -33,16 +33,20 @@ int main(int argc, char *argv[]) {
     }
 
     // allocate memory in host
+    printf("allocating memory in host \n");
     double 	***h_u = d_malloc_3d(N+2, N+2, N+2);
     double 	***h_u_old = d_malloc_3d(N+2, N+2, N+2);
     double 	***h_f = d_malloc_3d(N+2, N+2, N+2); 
+    double  h_d;
+    printf("finish\n");
 
     if (h_u == NULL || h_u_old == NULL || h_f==NULL ) {
-        perror("array u: allocation failed");
+        perror("array u: allocation failed \n");
         exit(-1);
     }
 
     //initialization
+    printf("initialzing \n");
     for(int i=0;i<N+2;i++){
         for(int j=0;j<N+2;j++){
             for(int k=0;k<N+2;k++){
@@ -76,46 +80,58 @@ int main(int argc, char *argv[]) {
             }
         }
     }
+    printf("finish \n");
 
     // Allocate memory in device
+    printf("allocating memory in device \n");
     double 	***d_u = d_malloc_3d_gpu(N+2, N+2, N+2);
     double 	***d_u_old = d_malloc_3d_gpu(N+2, N+2, N+2);
     double 	***d_f = d_malloc_3d_gpu(N+2, N+2, N+2); 
+    double  *d_d;
+    cudaMalloc((void **) &d_d, sizeof(double));
+    printf("finish \n");
+
 
     // copy matrix u and f from host to device memory
+    printf("copying matrix u and f from host to device memory \n");
     transfer_3d(d_u, h_u, N+2, N+2, N+2, cudaMemcpyHostToDevice);
     transfer_3d(d_u_old, h_u_old, N+2, N+2, N+2, cudaMemcpyHostToDevice);
     transfer_3d(d_f, h_f, N+2, N+2, N+2, cudaMemcpyHostToDevice);
+    printf("finish \n");
+
 
     //update
-
-    double d = INFINITY;
+    h_d = INFINITY;
     int iter=0;
 
     int K= 8;
-    dim3 dimGrid((N)/K, (N)/K, (N)/K);
+    dim3 dimGrid(N/K, N/K, N/K);
     dim3 dimBlock(K,K,K);
     double *** tmp;
 
-    while(d > tolerance*tolerance & iter < iter_max){
-        d=0;
+    printf("runing kernal \n");
+    while(h_d > tolerance*tolerance & iter < iter_max){
+    
         // jacobi_seq<<<1,1>>>(d_u, d_u_old, d_f, N); // one thread
-        jacobi_nat<<<dimGrid,dimBlock>>>(d_u, d_u_old, d_f, N); //N^3 threads
-        //jacobi_nat_with_norm<<<dimGrid,dimBlock>>>(d_u, d_u_old, d_f, N, &d);
+        // jacobi_nat<<<dimGrid,dimBlock>>>(d_u, d_u_old, d_f, N); //N^3 threads
+        jacobi_nat_with_norm<<<dimGrid,dimBlock>>>(d_u, d_u_old, d_f, N, d_d);
         cudaDeviceSynchronize();
+        cudaMemcpy(&h_d, d_d, sizeof(double), cudaMemcpyDeviceToHost);
+
         tmp = d_u_old;
         d_u_old= d_u;
         d_u=tmp;
-
         if(iter%20==0)
-            //printf("%d\n", iter);
-            printf("iter: %d  loss: %f \n", iter, d);
+            // printf("%d\n", iter);
+            printf("iter: %d  loss: %f \n", iter, h_d);
         iter += 1;
     }
+    printf("finish \n");
 
     //copy result u from device to host
+    printf("copying result u from device to host\n");
     transfer_3d(h_u, d_u, N+2, N+2, N+2, cudaMemcpyDeviceToHost);
-
+    printf("finish \n");
 
 
     // dump  results if wanted 

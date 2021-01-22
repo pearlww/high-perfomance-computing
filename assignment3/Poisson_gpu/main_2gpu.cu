@@ -77,43 +77,24 @@
         }
     }
  
-    // Allocate memory in device
-    // cudaSetDevice(0);
-    // cudaDeviceEnablePeerAccess(1,0);
-    // double 	***d0_u = d_malloc_3d_gpu(N+2, N+2, N/2+1);
-    // double 	***d0_u_old = d_malloc_3d_gpu(N+2, N+2, N/2+1);
-    // double 	***d0_f = d_malloc_3d_gpu(N+2, N+2, N/2+1); 
-    // // copy matrix u and f from host to device0 memory
-    // transfer_3d(d0_u, h_u, N+2, N+2, N/2+1, cudaMemcpyHostToDevice);
-    // transfer_3d(d0_u_old, h_u_old, N+2, N+2, N/2+1, cudaMemcpyHostToDevice);
-    // transfer_3d(d0_f, h_f, N+2, N+2, N/2+1, cudaMemcpyHostToDevice);
-
-    // cudaSetDevice(1);
-    // cudaDeviceEnablePeerAccess(0,0);
-    // double 	***d1_u = d_malloc_3d_gpu(N+2, N+2, N/2+1);
-    // double 	***d1_u_old = d_malloc_3d_gpu(N+2, N+2, N/2+1);
-    // double 	***d1_f = d_malloc_3d_gpu(N+2, N+2, N/2+1); 
-    // // copy matrix u and f from host to device1 memory
-    // transfer_3d(d1_u, h_u+(N+2)*(N+2)*(N/2+1),  N+2, N+2, N/2+1, cudaMemcpyHostToDevice);
-    // transfer_3d(d1_u_old, h_u_old+(N+2)*(N+2)*(N/2+1), N+2, N+2, N/2+1, cudaMemcpyHostToDevice);
-    // transfer_3d(d1_f, h_f+(N+2)*(N+2)*(N/2+1), N+2, N+2, N/2+1, cudaMemcpyHostToDevice); 
 
     cudaSetDevice(0);
     cudaDeviceEnablePeerAccess(1,0);
-    double 	***d0_u = d_malloc_3d_gpu(N+2, N+2, N+2);
-    double 	***d0_u_old = d_malloc_3d_gpu(N+2, N+2, N+2);
-    double 	***d0_f = d_malloc_3d_gpu(N+2, N+2, N+2); 
-    // copy matrix u and f from host to device0 memory
-    transfer_3d(d0_u, h_u, N+2, N+2, N/2+1, cudaMemcpyHostToDevice);
-    transfer_3d(d0_u_old, h_u_old, N+2, N+2, N/2+1, cudaMemcpyHostToDevice);
-    transfer_3d(d0_f, h_f, N+2, N+2, N/2+1, cudaMemcpyHostToDevice);
+    double 	***d0_u = d_malloc_3d_gpu(N+2, N+2, N/2+1);
+    double 	***d0_u_old = d_malloc_3d_gpu(N+2, N+2, N/2+1);
+    double 	***d0_f = d_malloc_3d_gpu(N+2, N+2, N/2+1); 
 
     cudaSetDevice(1);
     cudaDeviceEnablePeerAccess(0,0);
-    double 	***d1_u = d_malloc_3d_gpu(N+2, N+2, N+2);
-    double 	***d1_u_old = d_malloc_3d_gpu(N+2, N+2, N+2);
-    double 	***d1_f = d_malloc_3d_gpu(N+2, N+2, N+2); 
-    // copy matrix u and f from host to device1 memory
+    double 	***d1_u = d_malloc_3d_gpu(N+2, N+2, N/2+1);
+    double 	***d1_u_old = d_malloc_3d_gpu(N+2, N+2, N/2+1);
+    double 	***d1_f = d_malloc_3d_gpu(N+2, N+2, N/2+1); 
+
+
+    // copy matrix u and f from host to device memory
+    transfer_3d(d0_u, h_u, N+2, N+2, N/2+1, cudaMemcpyHostToDevice);
+    transfer_3d(d0_u_old, h_u_old, N+2, N+2, N/2+1, cudaMemcpyHostToDevice);
+    transfer_3d(d0_f, h_f, N+2, N+2, N/2+1, cudaMemcpyHostToDevice);
     transfer_3d(d1_u, h_u+(N+2)*(N+2)*(N/2+1),  N+2, N+2, N/2+1, cudaMemcpyHostToDevice);
     transfer_3d(d1_u_old, h_u_old+(N+2)*(N+2)*(N/2+1), N+2, N+2, N/2+1, cudaMemcpyHostToDevice);
     transfer_3d(d1_f, h_f+(N+2)*(N+2)*(N/2+1), N+2, N+2, N/2+1, cudaMemcpyHostToDevice); 
@@ -124,30 +105,30 @@
      int iter=0;
  
      int K= 8;
-     dim3 dimGrid((N)/K, (N)/K, (N)/K);
+     dim3 dimGrid(N/K, N/K, N/K);
      dim3 dimBlock(K,K,K/2);
      double *** tmp;
  
      while(iter < iter_max){
-         //d=0;
-        
-         jacobi_gpu0<<<dimGrid,dimBlock>>>(d0_u, d0_u_old, d1_u_old, d0_f, N);
-         jacobi_gpu1<<<dimGrid,dimBlock>>>(d1_u, d1_u_old, d0_u_old, d1_f, N);
+        cudaSetDevice(0);
+        jacobi_gpu0<<<dimGrid,dimBlock>>>(d0_u, d0_u_old, d1_u_old, d0_f, N);
+        cudaSetDevice(1);
+        jacobi_gpu1<<<dimGrid,dimBlock>>>(d1_u, d1_u_old, d0_u_old, d1_f, N);
+        //cudaDeviceSynchronize();
+        tmp = d0_u_old;
+        d0_u_old= d0_u;
+        d0_u=tmp;
 
-         cudaDeviceSynchronize();
-         tmp = d0_u_old;
-         d0_u_old= d0_u;
-         d0_u=tmp;
+        tmp = d1_u_old;
+        d1_u_old= d1_u;
+        d1_u=tmp; 
 
-         tmp = d1_u_old;
-         d1_u_old= d1_u;
-         d1_u=tmp; 
-
-         if(iter%20==0)
-             printf("%d\n", iter);
-             //printf("iter: %d  loss: %f \n", iter, d);
-         iter += 1;
+        if(iter%20==0)
+            printf("%d\n", iter);
+            //printf("iter: %d  loss: %f \n", iter, d);
+        iter += 1;
      }
+     cudaDeviceSynchronize();
 
      //copy result u from device to host
      transfer_3d(h_u, d0_u, N+2, N+2, N/2+1, cudaMemcpyDeviceToHost);

@@ -1,5 +1,6 @@
 TARGET_1	= possion_1gpu
 TARGET_2	= possion_2gpu
+
 OBJS	= print.o alloc3d.o alloc3d_gpu.o transfer3d_gpu.o jacobi.o 
 OBJS_1 = main.o
 OBJS_2 = main_2gpu.o

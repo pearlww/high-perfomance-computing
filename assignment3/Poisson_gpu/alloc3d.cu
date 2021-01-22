@@ -11,7 +11,7 @@ d_malloc_3d(int m, int n, int k) {
                     m * sizeof(double **) +
                     m * n * sizeof(double *) +
                     m * n * k * sizeof(double));
-                    
+             
     if (array3D == NULL) {
         return NULL;
     }
