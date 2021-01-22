@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     // allocate memory
     double 	***u = d_malloc_3d(N+2, N+2, N+2);
     double 	***u_old = d_malloc_3d(N+2, N+2, N+2);
-    double 	***f = d_malloc_3d(N+2, N+2, N+2);
+    double 	***f = d_malloc_3d(N+2, N+2, N+2);      
     if (u == NULL || u_old == NULL || f==NULL ) {
         perror("array u: allocation failed");
         exit(-1);
@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
 
     double lx=0, ux=5.0/16.0*(N+2);
     double ly=0, uy=0.25*(N+2);
-    double lz=1.0/6.0, uz=0.5*(N+2);
+    double lz=1.0/6.0*(N+2), uz=0.5*(N+2);
 
     for(int i=0; i<N+2; i++){
         for(int j=0; j<N+2; j++){
@@ -85,14 +85,13 @@ int main(int argc, char *argv[]) {
     //update
     int num_iter;
     #ifdef _JACOBI
-    num_iter = jacobi(u, u_old, f, N, iter_max, tolerance);
+    jacobi(u, u_old, f, N, iter_max, tolerance);
     #endif
 
     #ifdef _GAUSS_SEIDEL
-    num_iter = gauss_seidel(u, f, N, iter_max, tolerance);
+    gauss_seidel(u, f, N, iter_max, tolerance);
     #endif
 
-    printf("number of iterations = %d \n", num_iter);
 
     // dump  results if wanted 
     switch(output_type) {
