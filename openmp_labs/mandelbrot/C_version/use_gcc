@@ -1,0 +1,8 @@
+#!/bin/bash
+
+module load gcc
+echo -n "Setting up Makefiles for GCC ... "
+ln -sf Makefile.gcc Makefile
+cd pngwriter/src
+ln -sf Makefile.gcc Makefile
+echo "done."

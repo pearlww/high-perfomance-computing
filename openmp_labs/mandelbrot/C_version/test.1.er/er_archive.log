@@ -1,0 +1,17 @@
+### Start Tue Jan 12 22:39:02 2021
+# /opt/oracle/developerstudio12.6/bin/../bin/er_archive -n -O /zhome/99/2/144045/high-perfomance-computing/openmp_labs/mandelbrot/C_version/test.1.er/er_archive.log /zhome/99/2/144045/high-perfomance-computing/openmp_labs/mandelbrot/C_version/test.1.er
+Copying `/zhome/99/2/144045/high-perfomance-computing/openmp_labs/mandelbrot/C_version/mandelbrot'  to `/zhome/99/2/144045/high-perfomance-computing/openmp_labs/mandelbrot/C_version/test.1.er/archives/mandelbrot_Xcq60nOnfz0'
+Copying `/usr/lib64/libz.so.1.2.7'  to `/zhome/99/2/144045/high-perfomance-computing/openmp_labs/mandelbrot/C_version/test.1.er/archives/libz.so.1.2.7_OCEC1bthLm2'
+Copying `/usr/lib64/librt-2.17.so'  to `/zhome/99/2/144045/high-perfomance-computing/openmp_labs/mandelbrot/C_version/test.1.er/archives/librt-2.17.so_OCEC1bthLm2'
+Copying `/usr/lib64/libdl-2.17.so'  to `/zhome/99/2/144045/high-perfomance-computing/openmp_labs/mandelbrot/C_version/test.1.er/archives/libdl-2.17.so_OCEC1bthLm2'
+Copying `/opt/oracle/developerstudio12.6/lib/compilers/rtlibs/usr/lib/amd64/libmtsk_crt.so.1'  to `/zhome/99/2/144045/high-perfomance-computing/openmp_labs/mandelbrot/C_version/test.1.er/archives/libmtsk_crt.so.1_cGydg-gVPAc'
+Copying `/usr/lib64/libc-2.17.so'  to `/zhome/99/2/144045/high-perfomance-computing/openmp_labs/mandelbrot/C_version/test.1.er/archives/libc-2.17.so_OCEC1bthLm2'
+Copying `/usr/lib64/libm-2.17.so'  to `/zhome/99/2/144045/high-perfomance-computing/openmp_labs/mandelbrot/C_version/test.1.er/archives/libm-2.17.so_OCEC1bthLm2'
+Copying `/usr/lib64/libpthread-2.17.so'  to `/zhome/99/2/144045/high-perfomance-computing/openmp_labs/mandelbrot/C_version/test.1.er/archives/libpthread-2.17.so_OCEC1bthLm2'
+Copying `/opt/oracle/developerstudio12.6/lib/compilers/rtlibs/usr/lib/amd64/libmtsk.so.1'  to `/zhome/99/2/144045/high-perfomance-computing/openmp_labs/mandelbrot/C_version/test.1.er/archives/libmtsk.so.1_cGydg-gVPAc'
+Copying `/opt/oracle/developerstudio12.6/lib/compilers/atomic/amd64/libstatomic.so.1'  to `/zhome/99/2/144045/high-perfomance-computing/openmp_labs/mandelbrot/C_version/test.1.er/archives/libstatomic.so.1_7qzdIqf-8R5'
+Copying `/appl/gcc/6.3.0/lib64/libgcc_s.so.1'  to `/zhome/99/2/144045/high-perfomance-computing/openmp_labs/mandelbrot/C_version/test.1.er/archives/libgcc_s.so.1_vjp4ueVdCr5'
+Copying `/appl/gcc/6.3.0/lib64/libstdc++.so.6.0.22'  to `/zhome/99/2/144045/high-perfomance-computing/openmp_labs/mandelbrot/C_version/test.1.er/archives/libstdc++.so.6.0.22_vjp4ueVdCr5'
+Copying `/usr/lib64/libpng15.so.15.13.0'  to `/zhome/99/2/144045/high-perfomance-computing/openmp_labs/mandelbrot/C_version/test.1.er/archives/libpng15.so.15.13.0_OCEC1bthLm2'
+Copying `/opt/oracle/developerstudio12.6/lib/analyzer/amd64/runtime/libcollector.so'  to `/zhome/99/2/144045/high-perfomance-computing/openmp_labs/mandelbrot/C_version/test.1.er/archives/libcollector.so_-C8vWEvanQd'
+Copying `/usr/lib64/ld-2.17.so'  to `/zhome/99/2/144045/high-perfomance-computing/openmp_labs/mandelbrot/C_version/test.1.er/archives/ld-2.17.so_OCEC1bthLm2'
